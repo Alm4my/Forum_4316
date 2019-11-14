@@ -1,0 +1,31 @@
+version: '3.7'
+networks:
+  dev_net:
+    driver: bridge
+
+services:
+  apache:
+    image: php:7.3-apache
+    ports:
+      - 80:80
+    container_name: apache_dev
+    volumes:
+      - /Users/almamy/MEGA/Dev/Programming/PhpstormProjects/Forum_4316/:/var/www/html
+    networks:
+      - dev_net
+
+  mysql:
+    image: mysql
+    ports:
+      - 3306:3306
+    container_name: mysql_dev
+    volumes:
+      - /Users/almamy/MEGA/Dev/Programming/PhpstormProjects/Forum_4316/Database/:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sgafor
+      MYSQL_USER: sgafor
+      MYSQL_PASSWORD: PassSGA1
+    networks:
+      - dev_net
+

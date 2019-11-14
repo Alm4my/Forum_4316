@@ -1,0 +1,120 @@
+#header{
+    border-top: thin solid rgba(10, 10, 10, 0.25);
+}
+.down{
+    margin-top: 2%;
+}
+#sort-dropdown{
+    list-style: none;
+}
+#sorting{
+    width: 120px;
+}
+.check{
+    margin-left: -30%;
+}
+.radius{
+    border-radius: 5px;
+}
+.menu li{
+    margin-left: 2%;
+    margin-top: 2%;
+}
+
+#title {
+    margin-left: 2%;
+    margin-top: 3%;
+}
+
+.menu input{
+    padding-left: 14%;
+    background: url(../img/search-14-64.png)  left no-repeat;
+    background-size: 25px;
+    background-position: 3% 65%;
+    transition: .8s;
+
+}
+.menu input:focus-within{
+    background: #f6f8fc !important;
+    background: url(../img/search-14-64.png)  left no-repeat !important;
+    background-size: 25px !important;
+    background-position: 2% 40% !important;
+    border: medium solid #52baff;
+    padding-left: 17%;
+    transition: .7s;
+
+}
+.menu li i{
+    margin-left: 20%;
+    margin-top: 10%;
+    /*visibility: hidden;*/
+}
+.padded{
+    padding: 1%;
+    margin-top: 2%;
+    margin-bottom: 1%;
+}
+.message{
+    background: #667c99;
+    text-align: center;
+    color: white;
+    padding: 4%;
+    border: #667c99 !important;
+}
+#discuss-btn{
+    color: #21315a;
+    border-radius: 5px;
+    padding: 6%;
+}
+#discuss-txt{
+    color: white;
+    font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+}
+.side-list{
+    list-style: none;
+    margin-left: 25%;
+}
+#all-discuss{
+   margin-left: 10%;
+}
+
+#avatar{
+    height: 5%;
+    width: 5%;
+    border-radius: 60px;
+    float: left;
+    margin-right: 2%;
+
+}
+.user{
+    font-size: x-small;
+    color: #333333;
+    margin-bottom: -10%;
+    padding-bottom: -20%;
+
+}
+.questions p{
+    line-height: 1;
+    text-align: justify;
+    font-size: 1em !important;
+}
+.questions p a{
+    color: #29538f;
+    font-size: 1em !important;
+
+}
+.questions p a:visited{
+    color: #7163b1;
+}
+.questions p a:hover{
+    background: #e6e6e6;
+    color: #1673b1;
+}
+.center{
+    text-align: center;
+}
+#identification{
+    /*width: 50px;*/
+}
