@@ -21,8 +21,8 @@
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet"  href="assets/css/normalize.css">
-    <link rel="stylesheet" href="assets/css/all.css">
-    <link rel="stylesheet"  href="assets/css/foundation.css">
+    <link rel="stylesheet"  href="assets/css/foundation.min.css">
+    <link rel="stylesheet"  href="assets/css/foundation-icons/foundation-icons.css">
     <link rel="stylesheet"  href="assets/css/app.css">
 
     <!-- Favicon
@@ -72,7 +72,7 @@
                                <a href="signout.php" class="hollow button hcolor">Sign Out</a>
                                </li>
                                <li>
-                               <i class="fas fa-user fa-2x"> </i>'/*. $_SESSION['user_name'] */.'
+                               <i class=" fi-torso small"> </i>'/*. $_SESSION['user_name'] */.'
                                </li>';
                     }
                 ?>

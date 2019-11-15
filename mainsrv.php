@@ -7,6 +7,19 @@ include 'connect.php';
     $errors = array();
 //    $_SESSION['signed_in'] = false;
 
+// FUNCTIONS
+function validateUsername($name) {
+    return ctype_alnum($name) && strlen($name) >= 6;
+}
+
+function validatePassword($str) {
+    return ctype_alnum($str)
+        && strlen($str) >= 8
+        && preg_match('/[A-Z]/', $str)
+        && preg_match('/[a-z]/', $str)
+        && preg_match('/[0-9]/', $str);
+}
+
 
 // REGISTER USER
     if (isset($_POST['reg_user'])) {
@@ -21,6 +34,9 @@ include 'connect.php';
 
         // form validation: ensure that the form is correctly filled ...
         // by adding (array_push()) corresponding error unto $errors array
+        if (!validateUsername($username)) {array_push($errors, "The username must have at least 6 characters and contain only alphanumeric characters"); }
+        if (!validatePassword($_POST['password_1'])){array_push($errors, "Your password must be at least 8 characters long and contain 1 uppercase, 1 lowercase, and 1 number. Please retry.");}
+        if (strlen($password) < 6){array_push($errors, "The password must be more than 6 characters. Please, retry");}
         if (empty($username)) { array_push($errors, "Username is required"); }
         if(strlen($username > 30))  { array_push($errors, "The username cannot be longer than 30 characters."); }
         if (empty($email)) { array_push($errors, "Email is required"); }
@@ -28,6 +44,7 @@ include 'connect.php';
         if ($password_1 != $password_2) {
             array_push($errors, "The two passwords do not match. Try again!");
         }
+
 
         // first check the database to make sure
         // a user does not already exist with the same username and/or email

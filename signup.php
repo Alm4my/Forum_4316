@@ -10,6 +10,8 @@ include 'mainsrv.php';
 ?>
 <!-- HTML SIGN UP FORM -->
     <form class="log-in-form" method="post" action="signup.php">
+        <?php include('errors.php'); ?>
+
         <h3 class="text-center">Fill this out!</h3>
         <label>Username
             <input type="text" placeholder="Guillermo" name="username" value="<?php echo $username; ?>">
@@ -30,7 +32,6 @@ include 'mainsrv.php';
             <input type="submit" name="reg_user" class="button expanded" value="Register">
         </p>
         <br>
-        <?php include('errors.php'); ?>
     </form>
 
     <?php include 'footer.php' ?>;

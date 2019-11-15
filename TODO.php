@@ -7,7 +7,7 @@ To still give users the opportunity to delete their account, you could build som
 and then delete their account. Unfortunately, that is beyond the scope of this tutorial. */
 
 // TODO
-//  Set minimum size for password and policy such as what kind of password.
+//  Set minimum size for password and policy such as what kind of password. //[DONE]
 //  Add Notification effect instead of javascript alert in case of false logging
 //  Trim Inputs
 //  Add Welcome $USER
@@ -19,3 +19,4 @@ and then delete their account. Unfortunately, that is beyond the scope of this t
 //  Search Bar $_GET
 //  Finish Logo
 //  Create pages when topics go over some values
+//  Users page
