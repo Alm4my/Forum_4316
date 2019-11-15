@@ -37,7 +37,7 @@ include 'header.php';
                           <img alt="avatar" id="avatar" src="assets/img/avatar.png">
                           <p>
                             <a href="#">
-                                <a href="topic.php?id=' . $line['topic_id'] . '">' . $line['topic_subject'] . '</a>
+                                <a href="topic_view.php?id=' . $line['topic_id'] . '">' . $line['topic_subject'] . '</a>
                             </a>
                             <br>
                             <span class="user">
