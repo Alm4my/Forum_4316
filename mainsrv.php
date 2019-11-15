@@ -1,5 +1,6 @@
 <?php
 include 'connect.php';
+include 'func.php';
 
 // initializing variables
     $username = "";
@@ -7,18 +8,7 @@ include 'connect.php';
     $errors = array();
 //    $_SESSION['signed_in'] = false;
 
-// FUNCTIONS
-function validateUsername($name) {
-    return ctype_alnum($name) && strlen($name) >= 6;
-}
 
-function validatePassword($str) {
-    return ctype_alnum($str)
-        && strlen($str) >= 8
-        && preg_match('/[A-Z]/', $str)
-        && preg_match('/[a-z]/', $str)
-        && preg_match('/[0-9]/', $str);
-}
 
 
 // REGISTER USER
@@ -212,6 +202,11 @@ function validatePassword($str) {
                     //the first query worked, now start the second, posts query
                     //retrieve the id of the freshly created topic for usage in the posts query
                     $topic_id = mysqli_insert_id($conn);
+                    userLevelsQuery();
+
+                    // Increase post_count of user and of forum
+                    $q = "UPDATE users SET user_topics = user_topics + 1 WHERE user_id =" .$user_id;
+                    $r = mysqli_query($conn, $q);
 
                     $query = "INSERT INTO posts(post_content, post_date, post_topic, post_by)
                             VALUES ('$post_content', NOW(), $topic_id, $user_id)";
@@ -226,7 +221,11 @@ function validatePassword($str) {
                     else{
                         $query = "COMMIT;";
                         $result = mysqli_query($conn, $query);
-                        echo 'You have successfully created <a href="topic.php?id='. $topic_id . '">a new topic</a>';
+                        $q = "UPDATE users SET user_posts = user_posts + 1 WHERE user_id =" .$user_id;
+                        $r = mysqli_query($conn, $q);
+                        echo 'You have successfully created <a href="topic_view.php?id='. $topic_id . '">a new topic</a>';
+                        // Check if user reached number of post and topics to get a higher rank.
+                        userLevelsQuery();
                     }
                 }
             }

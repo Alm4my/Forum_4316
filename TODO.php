@@ -19,4 +19,6 @@ and then delete their account. Unfortunately, that is beyond the scope of this t
 //  Search Bar $_GET
 //  Finish Logo
 //  Create pages when topics go over some values
-//  Users page
+//  Users page // [DONE]
+//  Header Refining
+//  Search bar

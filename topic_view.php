@@ -2,7 +2,6 @@
 include 'reply.php';
 include 'connect.php';
 include 'header.php';
-include 'mainsrv.php';
 
     if (!isset($_GET['id']))
         echo 'No topic selected for display. Go back to <a href="index.php"> Post Page. </a>';

@@ -24,8 +24,8 @@ include 'mainsrv.php';
                 echo 'Your reply has not been saved, please try again later.';
             }
             else {
-                echo 'Your reply has been added, check out <a href="topic_view.php?id=' . $_POST['id'] . '">the topic</a>.';
-                header("Location: index.php");
+//                echo 'Your reply has been added, check out <a href="topic_view.php?id=' . $_POST['id'] . '">the topic</a>.';
+                header("Location: topic_view.php?id=". $_POST['id'] ." ");
             }
         }
     }

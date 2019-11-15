@@ -47,7 +47,7 @@ include 'header.php';
                                 <br>
                                 <span class="user">
                                      Started on ' . $d_date . ' at ' . $s_date . ' by
-                                     <b> <a href="user.php?id=' . $line['topic_by'] . '">
+                                     <b> <a href="user_view.php?id=' . $line['topic_by'] . '">
                                     ' . $user_name[0] . '
                                     </a> </b>
                                 </span>

@@ -10,7 +10,7 @@ include 'connect.php';
     else{
         while ($row = mysqli_fetch_assoc($result)){
         echo '
-            <li><a href="category.php?id='. $row['cat_id'] .'">' . $row['cat_name'] . ' </a>    
+            <li><a href="category.php?id='. $row['cat_id' ] .'">' . $row['cat_name'] . ' </a>    
         ';
         
         }
