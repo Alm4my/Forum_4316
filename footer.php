@@ -4,9 +4,9 @@
 </div>
 </div>
 <div class="grid-x grid-padding-x grid-margin-x">
-    <footer class="cell large-12 medium-12 small-full center r">
+    <footer class="cell large-12 medium-12 small-full center r footer" id="footer">
         <br><br>
-        <p style="font-size: small"> Designed and Implemented By <a style="font-weight: bold">Almamy Coulibaly</a></p>
+        <p style="font-size: small"> Designed and Implemented By <a style="font-weight: bold" href="mailto:coulibalya5@student.iugb.edu.ci">Almamy Coulibaly</a></p>
     </footer>
 </div>
 </div>

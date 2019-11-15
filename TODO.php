@@ -22,3 +22,5 @@ and then delete their account. Unfortunately, that is beyond the scope of this t
 //  Users page // [DONE]
 //  Header Refining
 //  Search bar
+//  Forgot your password && Show password
+//  Sticky Footer // [DONE]
