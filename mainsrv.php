@@ -1,10 +1,12 @@
 <?php
+include 'connect.php';
+
 // initializing variables
     $username = "";
     $email    = "";
     $errors = array();
+//    $_SESSION['signed_in'] = false;
 
-include 'connect.php';
 
 // REGISTER USER
     if (isset($_POST['reg_user'])) {

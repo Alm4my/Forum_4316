@@ -1,11 +1,11 @@
 <?php
-
+include 'reply.php';
 include 'connect.php';
 include 'header.php';
 include 'mainsrv.php';
 
     if (!isset($_GET['id']))
-        echo 'No topic selected for display. Go back to <a href="cat_display.php"> Post Page. </a>';
+        echo 'No topic selected for display. Go back to <a href="index.php"> Post Page. </a>';
     else{
 
     // Initial Topic Query
@@ -34,5 +34,16 @@ include 'mainsrv.php';
             <h3> '.  $user_name[0] .' </h3>
         ';
     }
+    $post_id = "SELECT MAX(post_id) FROM posts";
+    $post_id = mysqli_query($conn, $post_id);
+    $post_id = mysqli_fetch_row($post_id);
+    $post = $post_id[0] + 1;
 
+    echo '
+    <form method="post" action="reply.php?id=' . $post . '">
+        <input name="id" value="'. $_GET['id'] .'" hidden>
+        <textarea rows="3" name="reply_content"></textarea>
+        <input type="submit" value="Submit reply" />
+    </form>
+    ';
     }

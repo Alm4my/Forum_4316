@@ -1,6 +1,6 @@
 </div>
 <div class="cell large-1 medium-1 small-1">
-    <a href="cat_display.php" class="button radius"> <i class="fa fa-sync-alt"></i> </a>
+    <a href="index.php" class="button radius"> <i class="fa fa-sync-alt"></i> </a>
 </div>
 </div>
 <div class="grid-x grid-padding-x grid-margin-x">
