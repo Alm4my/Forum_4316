@@ -15,6 +15,7 @@ and then delete their account. Unfortunately, that is beyond the scope of this t
 //  Redesign Create Category
 //  Be logged in and have id above 5 to create categories
 //  Add Profile picture // https://www.codeproject.com/Questions/1253940/How-to-fetch-users-profile-picture-using-user-name
-//  Page for each category using d_cat template
+//  Page for each category using d_cat template // [done]
 //  Search Bar $_GET
 //  Finish Logo
+//  Create pages when topics go over some values

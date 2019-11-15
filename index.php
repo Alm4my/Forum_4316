@@ -15,10 +15,11 @@ include 'header.php';
     $cat_query = "SELECT * FROM categories " ;
     $cat_result = mysqli_query($conn, $cat_query);
 
-    // Show up database topics
+    // Show database topics
     while ($row = mysqli_fetch_assoc($cat_result)){
-        echo '<h2>Topics in ' . $row['cat_name'] . ' </h2>';
-        $topic_query = "SELECT * FROM topics WHERE topic_cat =" .$row['cat_id'];
+        echo '<h2>Topics in <a href="category.php?id='. $row['cat_id'] .'"> ' . $row['cat_name'] . '</a></h2>';
+        $topic_query = "SELECT * FROM topics WHERE topic_cat =" .$row['cat_id'] . " ORDER BY topic_date DESC LIMIT 6  ";
+
         $topic_result= mysqli_query($conn, $topic_query);
         while ($line = mysqli_fetch_assoc($topic_result)){
             // QUERIES
@@ -43,9 +44,10 @@ include 'header.php';
                             </a>
                             <br>
                             <span class="user">
-                                <b> <a href="user.php?id=' . $line['topic_by'] . '">
+                                 Started on '. $d_date .' at '. $s_date .' by
+                                 <b> <a href="user.php?id=' . $line['topic_by'] . '">
                                 '. $user_name[0] .'
-                                </a> </b> started '. $d_date .' at '. $s_date .' 
+                                </a> </b>
                             </span>
                            </p>
                        </div>
