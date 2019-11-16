@@ -54,8 +54,8 @@
         <div class="cell small-8 medium-8 large-6 padded" >
             <ul class="menu">
                 <li>
-                    <form action="" id="search-form">
-                        <input type="search" placeholder="Search Forum" aria-label="search">
+                    <form action="search.php" id="search-form">
+                        <input id="search" name="search" type="search" placeholder="Search Forum" aria-label="search">
                     </form>
                 </li>
                 <?php

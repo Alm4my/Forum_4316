@@ -11,8 +11,8 @@ include 'func.php';
 // REGISTER USER
     if (isset($_POST['reg_user'])) {
         // receive all input values from the form
-        $username = mysqli_real_escape_string($conn, $_POST['username']);
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $username = mysqli_real_escape_string($conn, trim($_POST['username']));
+        $email = mysqli_real_escape_string($conn, trim($_POST['email']));
         $password_1 = mysqli_real_escape_string($conn, $_POST['password_1']);
         $password_2 = mysqli_real_escape_string($conn, $_POST['password_2']);
         $d=strtotime("now");
@@ -43,12 +43,10 @@ include 'func.php';
             if ($user['user_name'] === $username) {
                 array_push($errors, "Username already exists. Try again!");
             }
-
             if ($user['user_email'] === $email) {
                 array_push($errors, "email already exists. Have you forgotten your password?");
             }
         }
-
         // Finally, register user if there are no errors in the form
         if (count($errors) == 0) {
             $password = sha1($password_1); //encrypt the password before saving in the database
@@ -63,7 +61,19 @@ include 'func.php';
             else{
                 $_SESSION['username'] = $username;
                 $_SESSION['success'] = "You are now logged in";
-                echo '<script>alert("You have registered successfully!")</script>';
+                echo '<div data-closable class="alert-box callout success">
+                        <i class="fa fa-check"></i> 
+                        You have successfully registered!
+                        You will be redirected to <a href="login.php">the login page shortly </a>
+                        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                            <span aria-hidden="true">&CircleTimes;</span>
+                         </button>
+                      </div>
+                      <script>
+                            setTimeout(function(){window.location.href = \'login.php\';}, 1700);                        
+                      </script>
+                      ';
+
             }
         }
     }
@@ -72,10 +82,18 @@ include 'func.php';
     if (isset($_POST['login_user'])) {
         //first, check if the user is already signed in. If that is the case, there is no need to display this page
         if(isset($_SESSION['signed_in']) && $_SESSION['signed_in'] == true) {
-            echo 'You are already signed in, you can <a href="signout.php">sign out</a> if you want.';
+            echo '
+                <div data-closable class="alert-box callout warning">
+                  <i class="fa fa-exclamation-triangle"></i> 
+                  You are already signed in, <a href="signout.php">Click here</a> to log out.
+                  <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                    <span aria-hidden="true">&CircleTimes;</span>
+                  </button>
+                </div>
+                ';
         }
         else{
-            $username = mysqli_real_escape_string($conn, $_POST['username']);
+            $username = mysqli_real_escape_string($conn, trim($_POST['username']));
             $password = mysqli_real_escape_string($conn, $_POST['password']);
             if (empty($username)) {
                 array_push($errors, "Username is required");
@@ -99,9 +117,20 @@ include 'func.php';
                         $_SESSION['user_name']  = $row['user_name'];
                         $_SESSION['user_level'] = $row['user_level'];
                     }
-
-                    echo 'Welcome, ' . $_SESSION['user_name'] . '. <a href="index.php">Proceed to the forum overview</a>.';
-                    echo '<script> window.location.href = \'index.php\' </script>'; //TODO make this a visual alert
+                    // Shows welcome message and redirects after 1.7 seconds
+                    echo '
+                        <div data-closable class="alert-box callout success">
+                            <i class="fa fa-check"></i> 
+                            Welcome ' . $_SESSION['user_name'] . ',
+                            You logged in successfully. You will be redirected in one moment.
+                            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                                <span aria-hidden="true">&CircleTimes;</span>
+                            </button>
+                            </div>
+                    ';
+                    echo '<script>
+                            setTimeout(function(){window.location.href = \'index.php\';}, 1700);                        
+                        </script>';
                 }
                 else {
                     array_push($errors, "Wrong username/password combination");
@@ -115,7 +144,15 @@ include 'func.php';
     if (isset($_POST['cat_creation'])) {
         if(!isset($_SESSION['signed_in']) || $_SESSION['signed_in'] == false) {
             //the user is not signed in
-            echo 'Sorry, you have to be <a href="login.php">logged in</a> to create a category.';
+            echo '
+                <div data-closable class="alert-box callout alert">
+                  <i class="fa fa-ban"></i> 
+                  Sorry, you have to be <a href="login.php">logged in</a> to create a category.
+                  <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                         <span aria-hidden="true">&CircleTimes;</span>
+                  </button>
+                </div>
+                ';
             die; // Remove the content from page
         }
         else{
@@ -142,11 +179,27 @@ include 'func.php';
                           VALUES('$cat_name', '$cat_desc')";
                 $final_result = mysqli_query($conn, $query);
                 if (!$final_result){
-                    echo "Something went wrong. Please retry or send us an <a href='mailto:albcoulibaly@gmail.com'>email.</a> <br>";
+                    echo "
+                            <div data-closable class=\"alert-box callout alert\">
+                              <i class=\"fa fa-ban\"></i> 
+                              Something went wrong. Please retry or send us an <a href='mailto:albcoulibaly@gmail.com'>email.</a> <br>
+                              <button class=\"close-button\" aria-label=\"Dismiss alert\" type=\"button\" data-close>
+                                     <span aria-hidden=\"true\">&CircleTimes;</span>
+                              </button>
+                            </div>
+                    ";
                     die ('Connect Error (' . $conn->connect_errno /* Error Code */ . ') ' . $conn->connect_error /* Error Desc */);
                 }
                 else{
-                    echo '<script>alert("Category successfully added!")</script>';
+                    echo '
+                        <div data-closable class="alert-box callout success">
+                            <i class="fa fa-check"></i> 
+                            Category Successfully Added!
+                            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                                <span aria-hidden="true">&CircleTimes;</span>
+                            </button>
+                            </div>
+                    ';
                 }
             }
         }
@@ -156,7 +209,15 @@ include 'func.php';
     if (isset($_POST['topic_creation'])){
         if(!isset($_SESSION['signed_in']) || $_SESSION['signed_in'] == false) {
             //the user is not signed in
-            echo 'Sorry, you have to be <a href="login.php">logged in</a> to create a topic.';
+            echo '
+                    <div data-closable class="alert-box callout alert">
+                      <i class="fa fa-ban"></i> 
+                      Sorry, you have to be <a href="login.php">logged in</a> to create a Topic.
+                      <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                             <span aria-hidden="true">&CircleTimes;</span>
+                      </button>
+                    </div>
+            ';
             die; // Remove the content from page
         }
         else {
@@ -166,10 +227,18 @@ include 'func.php';
             $query  = "BEGIN WORK;";
             $result = mysqli_query($conn, $query);
             if (!$result)
-                echo 'An error occurred while creating your topic. Please try again later.'; // The query failed, quit
+                echo '
+                    <div data-closable class="alert-box callout alert">
+                      <i class="fa fa-ban"></i> 
+                      An error occurred while creating your topic. Please try again later.
+                      <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                             <span aria-hidden="true">&CircleTimes;</span>
+                      </button>
+                    </div>
+                '; // The query failed, quit
             $topic_sub = mysqli_real_escape_string($conn, $_POST['topic_subject']);
             $topic_cat = mysqli_real_escape_string($conn, $_POST['topic_cat']);
-            $post_content = mysqli_real_escape_string($conn, $_POST['post_content']); // TODO CHECk to see if needed
+            $post_content = mysqli_real_escape_string($conn, $_POST['post_content']);
             if (empty($topic_sub)) {
                 array_push($errors, "Subject  is required");
             }
@@ -180,8 +249,7 @@ include 'func.php';
 
             if ($topic) { // if Topic exists
                 if ($topic['topic_subject'] == $topic_sub) {
-                    array_push($errors, "Topic already exists. Try changing the name.");
-                    include ('errors.php'); //TODO Notification style
+                    array_push($errors, "Topic already exists. Try to change the name or use the search bar to find the topic.");
                 }
             }
             if (count($errors) == 0) {
@@ -190,14 +258,22 @@ include 'func.php';
                 $result = mysqli_query($conn, $query);
                 if (!$result){
                     // Something went wrong, display the error
-                    echo 'An error occurred while inserting your data. Please try again later.';
+                    echo '
+                    <div data-closable class="alert-box callout alert">
+                      <i class="fa fa-ban"></i> 
+                      An error occurred while inserting your data. Please try again later.
+                      <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                             <span aria-hidden="true">&CircleTimes;</span>
+                      </button>
+                    </div>
+                    ';
                     echo('Connect Error (' . $conn->connect_errno /* Error Code */ . ') ' . $conn->connect_error /* Error Desc */);
                     $query = "ROLLBACK;";
                     $result = mysqli_query($conn, $query);
                 }
                 else{
-                    //the first query worked, now start the second, posts query
-                    //retrieve the id of the freshly created topic for usage in the posts query
+                    // First query worked, now start the second, posts query
+                    // Retrieve the id of the freshly created topic for usage in the posts query
                     $topic_id = mysqli_insert_id($conn);
                     userLevelsQuery();
 
@@ -210,7 +286,15 @@ include 'func.php';
                     $result = mysqli_query($conn, $query);
                     if (!$result){
                         // Something went wrong, display the error
-                        echo 'An error occurred while inserting your post. Please try again later.';
+                        echo '
+                        <div data-closable class="alert-box callout alert">
+                          <i class="fa fa-ban"></i> 
+                          An error occurred while inserting your post. Please try again later.
+                          <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                                 <span aria-hidden="true">&CircleTimes;</span>
+                          </button>
+                        </div>
+                        ';
                         echo('Connect Error (' . $conn->connect_errno /* Error Code */ . ') ' . $conn->connect_error /* Error Desc */);
                         $query = "ROLLBACK;";
                         $result = mysqli_query($conn, $query);
@@ -220,7 +304,15 @@ include 'func.php';
                         $result = mysqli_query($conn, $query);
                         $q = "UPDATE users SET user_posts = user_posts + 1 WHERE user_id =" .$user_id;
                         $r = mysqli_query($conn, $q);
-                        echo 'You have successfully created <a href="topic_view.php?id='. $topic_id . '">a new topic</a>';
+                        echo '
+                            <div data-closable class="alert-box callout success">
+                              <i class="fa fa-check"></i> 
+                              You have successfully created <a href="topic_view.php?id='. $topic_id . '">a new topic</a>
+                              <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                                <span aria-hidden="true">&CircleTimes;</span>
+                              </button>
+                            </div>
+                        ';
                         // Check if user reached number of post and topics to get a higher rank.
                         userLevelsQuery();
                     }
@@ -231,7 +323,7 @@ include 'func.php';
 
 //RESET PASSWORD
     if (isset($_POST['pass_reset'])) {
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $email = mysqli_real_escape_string($conn, trim($_POST['email']));
         // ensure that the user exists on our system
         $query = "SELECT user_email FROM users WHERE user_email='$email'";
         $results = mysqli_query($conn, $query);
@@ -284,8 +376,19 @@ if (isset($_POST['set_new_pass'])) {
             $query = "UPDATE users SET user_pass='$new_pass' WHERE user_email='$email'";
             $result = mysqli_query($conn, $query);
             if ($result){
-                echo '<script> alert("Password successfully changed. Please log in with your new credentials") </script>';
-                header('location: login.php');
+                echo '<script> alert("Password successfully changed. Please log in with your new credentials") </script>  
+                        <div data-closable class="alert-box callout success">
+                            <i class="fa fa-check"></i> 
+                            Password successfully changed. Please <a href="login.php"> log in </a> with your new credentials
+                            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                                <span aria-hidden="true">&CircleTimes;</span>
+                            </button>
+                            </div>
+                            
+                            <script>
+                            setTimeout(function(){window.location.href = \'login.php\';}, 1700);                        
+                            </script>
+                    ';
             }
         }
     }

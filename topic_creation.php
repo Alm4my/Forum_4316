@@ -12,6 +12,7 @@ include 'app.php';
 ?>
 
 <form class="log-in-form" method="post" action="">
+    <?php include ('errors.php') ?>
     <h3 class="text-center">Posting Time!</h3>
     <label>
         Subject

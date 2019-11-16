@@ -44,5 +44,13 @@ include 'header.php';
         <textarea rows="3" name="reply_content"></textarea>
         <input type="submit" value="Submit reply" />
     </form>
+    
+    <!-- TEXTAREA PLUGIN -->
+    <script src="assets/ckeditor/ckeditor.js"></script>
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace( \'reply_content\' );
+    </script>
     ';
     }

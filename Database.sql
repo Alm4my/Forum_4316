@@ -43,7 +43,14 @@ CREATE TABLE password_recovery(
     id              INT(32) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     email           VARCHAR (255),
     token           VARCHAR (255) UNIQUE
-) ENGINE=INNODB
+) ENGINE=INNODB;
+
+CREATE TABLE search(
+                       id              INT(32) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                       value           VARCHAR (255) NOT NULL,
+                       date            DATETIME NOT NULL,
+                       search_by       INT(32) NOT NULL
+) ENGINE=INNODB;
 
 ALTER TABLE topics ADD FOREIGN KEY(topic_cat) REFERENCES categories(cat_id) ON DELETE RESTRICT ON UPDATE CASCADE;
 -- Set topic_cat as a foreign key and references it to categories(cat_id), update them automatically and requires the
@@ -54,4 +61,6 @@ ALTER TABLE posts ADD FOREIGN KEY(post_topic) REFERENCES topics(topic_id) ON DEL
 -- Link posts to topics
 ALTER TABLE posts ADD FOREIGN KEY(post_by) REFERENCES users(user_id) ON DELETE RESTRICT ON UPDATE CASCADE;
 -- Link posts to users
+ALTER TABLE search ADD FOREIGN KEY(search_by) REFERENCES users(user_id);
+-- Link search value to user who did that search
 

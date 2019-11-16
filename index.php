@@ -36,7 +36,7 @@ include 'header.php';
             $d_date = date("Y-m-d", $date[0]);
 
             echo '  
-                      <div id="question'. $line['topic_id'] .'">
+                      <div id="questions'. $line['topic_id'] .'">
                           <img alt="avatar" id="avatar" src="assets/img/avatar.png">
                           <p>
                             <a href="#">
