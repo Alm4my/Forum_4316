@@ -5,7 +5,7 @@ $msg_sub = "Please fill in the requested information so you can be part of our a
             Don't Forget, sharing is caring! ( ͡° ͜ʖ ͡°)";
 include 'connect.php';
 include 'header.php';
-include 'mainsrv.php';
+include 'app.php';
 
 ?>
 <!-- HTML SIGN UP FORM -->

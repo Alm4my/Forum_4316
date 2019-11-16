@@ -8,9 +8,6 @@ include 'func.php';
     $errors = array();
 //    $_SESSION['signed_in'] = false;
 
-
-
-
 // REGISTER USER
     if (isset($_POST['reg_user'])) {
         // receive all input values from the form
@@ -231,3 +228,65 @@ include 'func.php';
             }
         }
     }
+
+//RESET PASSWORD
+    if (isset($_POST['pass_reset'])) {
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        // ensure that the user exists on our system
+        $query = "SELECT user_email FROM users WHERE user_email='$email'";
+        $results = mysqli_query($conn, $query);
+        if (empty($email)) {
+            array_push($errors, "Your email is required");
+        }
+        else if(mysqli_num_rows($results) <= 0) {
+            array_push($errors, "Sorry, no user exists on our system with that email");
+        }
+        // generate a unique random token of length 100
+        try {
+            $token = bin2hex(random_bytes(50));
+        }
+        catch (Exception $e) {
+            array_push($errors, "Could not generate token. Please email the admin with the link at the bottom of the page.");
+        }
+
+        if (count($errors) == 0) {
+            // store token in the password-reset database table against the user's email
+            $query = "INSERT INTO password_recovery(email, token) VALUES ('$email', '$token')";
+            $results = mysqli_query($conn, $query);
+
+            // Send email to user with the token in a link they can click on
+            $to = $email;
+            $subject = "Password Reset [Ngbako]";
+            $msg = "Hi there, click on this <a href=\"new_pass.php?token=" . $token . "\">link</a> to reset your password.";
+            $msg = wordwrap($msg,70);
+            $headers = "From: reset@ngbako.com";
+            mail($to, $subject, $msg, $headers);
+            header('location: pending.php?email=' . $email);
+        }
+    }
+
+// ENTER NEW PASSWORD
+if (isset($_POST['set_new_pass'])) {
+    $new_pass = mysqli_real_escape_string($conn, $_POST['new_pass']);
+    $new_pass_c = mysqli_real_escape_string($conn, $_POST['new_pass_c']);
+
+    // Grab to token that came from the email link
+    $token = $_SESSION['token'];
+    if (empty($new_pass) || empty($new_pass_c)) array_push($errors, "Password is required");
+    if ($new_pass !== $new_pass_c) array_push($errors, "Passwords do not match");
+    if (count($errors) == 0) {
+        // select email address of user from the password_reset table
+        $query = "SELECT email FROM password_recovery WHERE token='$token' LIMIT 1";
+        $result = mysqli_query($conn, $query);
+        $email = mysqli_fetch_assoc($result)['email'];
+        if ($email) {
+            $new_pass = sha1($new_pass);
+            $query = "UPDATE users SET user_pass='$new_pass' WHERE user_email='$email'";
+            $result = mysqli_query($conn, $query);
+            if ($result){
+                echo '<script> alert("Password successfully changed. Please log in with your new credentials") </script>';
+                header('location: login.php');
+            }
+        }
+    }
+}

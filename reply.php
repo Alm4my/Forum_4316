@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'connect.php';
-include 'mainsrv.php';
+include 'app.php';
 
 
     if($_SERVER['REQUEST_METHOD'] != 'POST')

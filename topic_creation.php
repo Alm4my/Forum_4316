@@ -8,7 +8,7 @@ $msg_sub = "Create your topic so that you can discuss with your peers.";
 
 include 'connect.php';
 include 'header.php';
-include 'mainsrv.php';
+include 'app.php';
 ?>
 
 <form class="log-in-form" method="post" action="">

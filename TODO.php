@@ -24,3 +24,4 @@ and then delete their account. Unfortunately, that is beyond the scope of this t
 //  Search bar
 //  Forgot your password && Show password
 //  Sticky Footer // [DONE]
+//  Case study zurb

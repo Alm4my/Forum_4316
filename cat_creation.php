@@ -4,7 +4,7 @@ $msg_title = "Create Category";
 $msg_sub = "Create a category that can help user talk about a specific set of topics.";
 include 'connect.php';
 include 'header.php';
-include 'mainsrv.php';
+include 'app.php';
 
 ?>
 <form method="post" action="" >

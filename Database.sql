@@ -39,6 +39,12 @@ CREATE TABLE posts (
     PRIMARY         KEY (post_id)
 ) ENGINE=INNODB;
 
+CREATE TABLE password_recovery(
+    id              INT(32) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    email           VARCHAR (255),
+    token           VARCHAR (255) UNIQUE
+) ENGINE=INNODB
+
 ALTER TABLE topics ADD FOREIGN KEY(topic_cat) REFERENCES categories(cat_id) ON DELETE RESTRICT ON UPDATE CASCADE;
 -- Set topic_cat as a foreign key and references it to categories(cat_id), update them automatically and requires the
 -- category to be fully empty before deletion (no topics)
