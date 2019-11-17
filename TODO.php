@@ -7,23 +7,9 @@ To still give users the opportunity to delete their account, you could build som
 and then delete their account. Unfortunately, that is beyond the scope of this tutorial. */
 
 // TODO
-//  Set minimum size for password and policy such as what kind of password. //[DONE]
-//  Add Notification effect instead of javascript alert in case of false logging
-//  Trim Inputs //[DONE]
-//  Add Welcome $USER
-//  Add Pop up menu for different users under the icon
-//  Redesign Create Category
-//  Be logged in and have id above 5 to create categories
+//  Finish Search, profile, topic pages;˚
 //  Add Profile picture // https://www.codeproject.com/Questions/1253940/How-to-fetch-users-profile-picture-using-user-name
-//  Page for each category using d_cat template // [done]
-//  Search Bar $_GET
-//  Finish Logo //[DONE]
-//  Create pages when topics go over some values
-//  Users page // [DONE]
+//  Redesign Users page
 //  Header Refining
 //  Search bar
-//  Forgot your password && Show password // [DONE]
-//  Sticky Footer // [DONE]
 //  Case study zurb
-//  Change alert boxes to closable notification boxes all around
-//  Redirect after login wait 3 seconds

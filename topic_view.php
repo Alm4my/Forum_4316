@@ -1,4 +1,6 @@
 <?php
+$msg_title = "Topic Page";
+$msg_sub = "Thanks for helping!";
 include 'reply.php';
 include 'connect.php';
 include 'header.php';
@@ -40,7 +42,7 @@ include 'header.php';
 
     echo '
     <form method="post" action="reply.php?id=' . $post . '">
-        <input name="id" value="'. $_GET['id'] .'" hidden>
+        <input name="id" value="'.$_GET['id'].'" hidden>
         <textarea rows="3" name="reply_content"></textarea>
         <input type="submit" value="Submit reply" />
     </form>
@@ -54,3 +56,4 @@ include 'header.php';
     </script>
     ';
     }
+include 'footer.php';

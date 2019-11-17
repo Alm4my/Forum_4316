@@ -77,7 +77,7 @@
     margin-left: 25%;
 }
 #all-discuss{
-   margin-left: 10%;
+   margin-left: 2%;
 }
 
 #avatar{
@@ -119,3 +119,11 @@
     /*width: 50px;*/
 }
 
+ .menu li a{
+    padding: .5em;
+}
+
+#torso{
+    color: #1779ba;
+    cursor: pointer;
+}

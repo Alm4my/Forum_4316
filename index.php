@@ -2,7 +2,7 @@
 <?php
 session_start();
 $msg_title = "Welcome to the International University of Grand-Bassam's
-              Student Government Association forum.";
+              Student Forum";
 $msg_sub = "This is a platform where student can exchange
             about their issues and together find solutions.";
 include 'connect.php';
@@ -17,7 +17,7 @@ include 'header.php';
 
     // Show database topics
     while ($row = mysqli_fetch_assoc($cat_result)){
-        echo '<h2>Topics in <a href="category.php?id='. $row['cat_id'] .'"> ' . $row['cat_name'] . '</a></h2>';
+        echo '<h2>Topics in <a href="category.php?cat='. $row['cat_id'] .'"> ' . $row['cat_name'] . '</a></h2>';
         $topic_query = "SELECT * FROM topics WHERE topic_cat =" .$row['cat_id'] . " ORDER BY topic_date DESC LIMIT 6  ";
 
         $topic_result= mysqli_query($conn, $topic_query);

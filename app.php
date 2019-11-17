@@ -23,7 +23,6 @@ include 'func.php';
         // by adding (array_push()) corresponding error unto $errors array
         if (!validateUsername($username)) {array_push($errors, "The username must have at least 6 characters and contain only alphanumeric characters"); }
         if (!validatePassword($_POST['password_1'])){array_push($errors, "Your password must be at least 8 characters long and contain 1 uppercase, 1 lowercase, and 1 number. Please retry.");}
-        if (strlen($password) < 6){array_push($errors, "The password must be more than 6 characters. Please, retry");}
         if (empty($username)) { array_push($errors, "Username is required"); }
         if(strlen($username > 30))  { array_push($errors, "The username cannot be longer than 30 characters."); }
         if (empty($email)) { array_push($errors, "Email is required"); }
@@ -31,6 +30,8 @@ include 'func.php';
         if ($password_1 != $password_2) {
             array_push($errors, "The two passwords do not match. Try again!");
         }
+        if (strlen($password_1) < 6){array_push($errors, "The password must be more than 6 characters. Please, retry");}
+
 
 
         // first check the database to make sure
@@ -55,7 +56,15 @@ include 'func.php';
                       VALUES('$username', '$password','$email', NOW(), 0)";
             $final_result = mysqli_query($conn, $query);
             if (!$final_result){
-                echo "Something went wrong. Please try again later. <br>";
+                echo '
+                        <div data-closable class="alert-box callout alert">
+                          <i class="fa fa-ban"></i> 
+                          Something went wrong. Please try again later.
+                          <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                              <span aria-hidden="true">&CircleTimes;</span>
+                          </button>
+                        </div>
+                ';
                 die ('Connect Error (' . $conn->connect_errno /* Error Code */ . ') ' . $conn->connect_error /* Error Desc */);
             }
             else{
@@ -393,3 +402,162 @@ if (isset($_POST['set_new_pass'])) {
         }
     }
 }
+
+// PROFILE INDIVIDUAL CHANGES
+// USERNAME
+    if (isset($_POST['username_chg'])){
+        $new_username = mysqli_real_escape_string($conn, trim($_POST['username']));
+        // Validation
+        if(strlen($new_username > 30))  { array_push($errors, "The username cannot be longer than 30 characters."); }
+        if (!validateUsername($new_username)) {array_push($errors, "The username must have at least 6 characters and contain only alphanumeric characters"); }
+        if (empty($new_username)) { array_push($errors, "Username is required"); }
+
+        // Check Database to confirm that username does not exist
+        $user_check_query = "SELECT * FROM users WHERE user_name='$new_username' LIMIT 1";
+        $result = mysqli_query($conn, $user_check_query);
+        $user = mysqli_fetch_assoc($result);
+
+        if ($user) { // if user exists
+            if ($user['user_name'] === $new_username) {
+                array_push($errors, "Username already exists. Try with another one!");
+            }
+        }
+        // Change username if there are no errors in the form
+        if (count($errors) == 0) {
+            $query = "UPDATE users SET user_name =  
+                      '$new_username' WHERE user_id=" . $_SESSION['user_id'];
+            $final_result = mysqli_query($conn, $query);
+            if (!$final_result){
+                echo '
+                        <div data-closable class="alert-box callout alert">
+                          <i class="fa fa-ban"></i> 
+                          Something went wrong. Please try again later.
+                          <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                              <span aria-hidden="true">&CircleTimes;</span>
+                          </button>
+                        </div>
+                ';
+                die ('Connect Error (' . $conn->connect_errno /* Error Code */ . ') ' . $conn->connect_error /* Error Desc */);
+            }
+            else{
+                $_SESSION['username'] = $new_username;
+                echo '<div data-closable class="alert-box callout success">
+                        <i class="fa fa-check"></i> 
+                        Your username was changed successfully
+                        You will be redirected to <a href="index.php">the main page shortly </a>
+                        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                            <span aria-hidden="true">&CircleTimes;</span>
+                         </button>
+                      </div>
+                      <script>
+                            setTimeout(function(){window.location.href = \'login.php\';}, 1700);                        
+                      </script>
+                      ';
+
+            }
+        }
+    }
+
+// EMAIL ADDRESS
+    if (isset($_POST['email_chg'])){
+        $new_email = mysqli_real_escape_string($conn, trim($_POST['email']));
+
+        // Check Database to confirm that username does not exist
+        $user_check_query = "SELECT * FROM users WHERE user_email='$new_email' LIMIT 1";
+        $result = mysqli_query($conn, $user_check_query);
+        $user = mysqli_fetch_assoc($result);
+
+        if ($user) { // if user exists
+            if ($user['user_email'] === $new_email) {
+                array_push($errors, "email address already exists. Make sure it is correct!");
+            }
+        }
+        // Change username if there are no errors in the form
+        if (count($errors) == 0) {
+            $query = "UPDATE users SET user_email 
+                      = '$new_email' WHERE user_id=" .$_SESSION['user_id'];
+            $final_result = mysqli_query($conn, $query);
+            if (!$final_result){
+                echo '
+                        <div data-closable class="alert-box callout alert">
+                          <i class="fa fa-ban"></i> 
+                          Something went wrong. Please try again later.
+                          <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                              <span aria-hidden="true">&CircleTimes;</span>
+                          </button>
+                        </div>
+                ';
+                die ('Connect Error (' . $conn->connect_errno /* Error Code */ . ') ' . $conn->connect_error /* Error Desc */);
+            }
+            else{
+                echo '<div data-closable class="alert-box callout success">
+                        <i class="fa fa-check"></i> 
+                        Your email address was changed successfully
+                        You will be redirected to <a href="index.php">the main page shortly </a>
+                        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                            <span aria-hidden="true">&CircleTimes;</span>
+                         </button>
+                      </div>
+                      <script>
+                            setTimeout(function(){window.location.href = \'signout.php\';}, 1100);                        
+                            setTimeout(function(){window.location.href = \'login.php\';}, 2000);                        
+                      </script>
+                      ';
+            }
+        }
+    }
+
+// PASSWORD
+    if (isset($_POST['pass_chg'])) {
+        $password_1 = mysqli_real_escape_string($conn, $_POST['password_1']);
+        $password_2 = mysqli_real_escape_string($conn, $_POST['password_2']);
+
+        // Validation
+        if (!validatePassword($_POST['password_1'])) {
+            array_push($errors, "Your password must be at least 8 characters long and contain 1 uppercase, 1 lowercase, and 1 number. Please retry.");
+        }
+        if (empty($password_1)) {
+            array_push($errors, "Password is required");
+        }
+        if ($password_1 != $password_2) {
+            array_push($errors, "The two passwords do not match. Try again!");
+        }
+        if (strlen($password_1) < 6) {
+            array_push($errors, "The password must be more than 6 characters. Please, retry");
+        }
+
+        // Change password
+        if (count($errors) == 0) {
+            $password = sha1($password_1); // Encrypt the password before saving in the database
+            $query = "UPDATE users SET user_pass = 
+                      '$password' WHERE user_id=" .$_SESSION['user_id'];
+            $final_result = mysqli_query($conn, $query);
+            if (!$final_result) {
+                echo '
+                        <div data-closable class="alert-box callout alert">
+                          <i class="fa fa-ban"></i> 
+                          Something went wrong. Please try again later.
+                          <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                              <span aria-hidden="true">&CircleTimes;</span>
+                          </button>
+                        </div>
+                ';
+                die ('Connect Error (' . $conn->connect_errno /* Error Code */ . ') ' . $conn->connect_error /* Error Desc */);
+            } else {
+                echo '<div data-closable class="alert-box callout success">
+                        <i class="fa fa-check"></i> 
+                        Password Changed!
+                        You will be redirected to <a href="index.php">the main page shortly </a>
+                        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                            <span aria-hidden="true">&CircleTimes;</span>
+                         </button>
+                      </div>
+                      <script>
+                            setTimeout(function(){window.location.href = \'signout.php\';}, 1500);                        
+                            setTimeout(function(){window.location.href = \'login.php\';}, 1500);                        
+                      </script>
+                      ';
+
+            }
+        }
+    }

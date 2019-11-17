@@ -8,19 +8,19 @@ $msg_sub = "This is a platform where student can exchange
 include 'connect.php';
 include 'header.php';
 
-    if (!isset($_GET['id']))
+    if (!isset($_GET['cat']))
         echo 'No topic selected for display. Go back to <a href="index.php"> Main Page. </a>';
     else {
         // Questions Div
         echo '<div class="questions">';
 
         // Initial Category Query
-        $cat_query = "SELECT * FROM categories WHERE cat_id=" . $_GET['id'];
+        $cat_query = "SELECT * FROM categories WHERE cat_id=" . $_GET['cat'];
         $cat_result = mysqli_query($conn, $cat_query);
 
         // Show Topics for the category
         while ($row = mysqli_fetch_assoc($cat_result)) {
-            echo '<h2> <a href="category.php?id=' . $row['cat_id'] . '"> ' . $row['cat_name'] . '</a></h2>';
+            echo '<h2> <a href="category.php?cat=' . $row['cat_id'] . '"> ' . $row['cat_name'] . '</a></h2>';
             $topic_query = "SELECT * FROM topics WHERE topic_cat =" . $row['cat_id'];
             $topic_result = mysqli_query($conn, $topic_query);
             while ($line = mysqli_fetch_assoc($topic_result)) {
