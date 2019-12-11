@@ -3990,7 +3990,8 @@ a.thumbnail image {
   vertical-align: middle;
   width: 20px;
   height: 16px;
-  cursor: pointer; }
+  cursor: pointer;
+color: black;}
 .menu-icon::after {
   position: absolute;
   top: 0;
@@ -4150,9 +4151,9 @@ a.thumbnail image {
 .drilldown .is-drilldown-submenu.is-active {
   z-index: 1;
   display: block;
-  -webkit-transform: translateX(-100%);
-  -ms-transform: translateX(-100%);
-  transform: translateX(-100%); }
+  /*-webkit-transform: translateX(-100%);*/
+  /*-ms-transform: translateX(-100%);*/
+  /*transform: translateX(-100%);*/ }
 .drilldown .is-drilldown-submenu.is-closing {
   -webkit-transform: translateX(100%);
   -ms-transform: translateX(100%);

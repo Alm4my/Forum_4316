@@ -1,10 +1,9 @@
 <!--Display each category individually-->
 <?php
 session_start();
-$msg_title = "Welcome to the International University of Grand-Bassam's
-              Student Government Association forum.";
-$msg_sub = "This is a platform where student can exchange
-            about their issues and together find solutions.";
+include 'func.php';
+$msg_title = welcomeVariables($_GET['cat'])[0];
+$msg_sub = welcomeVariables($_GET['cat'])[1];
 include 'connect.php';
 include 'header.php';
 
@@ -21,7 +20,7 @@ include 'header.php';
         // Show Topics for the category
         while ($row = mysqli_fetch_assoc($cat_result)) {
             echo '<h2> <a href="category.php?cat=' . $row['cat_id'] . '"> ' . $row['cat_name'] . '</a></h2>';
-            $topic_query = "SELECT * FROM topics WHERE topic_cat =" . $row['cat_id'];
+            $topic_query = "SELECT * FROM topics WHERE topic_cat =" . $row['cat_id']. " ORDER BY topic_date DESC";
             $topic_result = mysqli_query($conn, $topic_query);
             while ($line = mysqli_fetch_assoc($topic_result)) {
                 // QUERIES
@@ -36,10 +35,14 @@ include 'header.php';
                 $date[0] = strtotime($date[0]);
                 $s_date = date("h:i a", $date[0]);
                 $d_date = date("Y-m-d", $date[0]);
+                // Picture Query
+                $p_query = "SELECT image FROM image WHERE image_for=". $line['topic_by'];
+                $p_query = mysqli_query($conn, $p_query);
+                $p_result = mysqli_fetch_assoc($p_query);
 
                 echo '  
-                          <div id="question' . $line['topic_id'] . '">
-                              <img alt="avatar" id="avatar" src="assets/img/avatar.png">
+                          <div class="question">
+                              <img alt="avatar" id="avatar" src="assets/img/profile/'. $p_result['image'] . '">
                               <p>
                                 <a href="#">
                                     <a href="topic_view.php?id=' . $line['topic_id'] . '">' . $line['topic_subject'] . '</a>

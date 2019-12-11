@@ -5,5 +5,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="ckeditor" level="application" />
+    <orderEntry type="library" name="froala_editor.pkgd" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="my" level="application" />
+    <orderEntry type="library" name="prism" level="application" />
   </component>
 </module>

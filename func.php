@@ -3,7 +3,7 @@
 
 // FUNCTIONS
 function validateUsername($name) {
-    return ctype_alnum($name) && strlen($name) >= 6;
+    return ctype_alnum($name) && strlen($name) >= 3;
 }
 function validatePassword($str) {
     return ctype_alnum($str)
@@ -86,16 +86,16 @@ function numberOfTopics($user_id){
 function lastPost($user_id, $topicOrContent){
     global $conn;
     if ($topicOrContent == 1){
-        $query = "SELECT topic_subject FROM topics WHERE topic_by=". $user_id ." ORDER BY topic_date DESC";
+        $query = "SELECT topic_subject, topic_id FROM topics WHERE topic_by=". $user_id ." ORDER BY topic_date DESC";
         $query = mysqli_query($conn, $query);
         $query = mysqli_fetch_row($query);
-        return $query[0];
+        return array($query[0], $query[1]);
     }
     else{
-        $query = "SELECT post_content FROM posts WHERE post_by=". $user_id ." ORDER BY post_date DESC";
+        $query = "SELECT post_content, post_topic FROM posts WHERE post_by=". $user_id ." ORDER BY post_date DESC";
         $query = mysqli_query($conn, $query);
         $query = mysqli_fetch_row($query);
-        return $query[0];
+        return array($query[0], $query[1]);
     }
 }
 function userEmail($user_id){
@@ -104,4 +104,28 @@ function userEmail($user_id){
     $query = mysqli_query($conn, $query);
     $query = mysqli_fetch_row($query);
     return $query[0];
+}
+function welcomeVariables($id){
+    if ($id == 1){
+         return array("Mathematics","This Forum is dedicated to all questions from Mathematics majors.");
+    }
+    elseif ($id == 2){
+        return array("Computer Science","This Forum is dedicated to all questions from Computer Science and Computer Information Science majors.");
+    }
+    elseif ($id == 3){
+        return array("Mechanical Engineering","This Forum is dedicated to all questions from Mechanical Engineering majors.");
+    }
+    elseif ($id == 4){
+        return array("Marketing & Management","This Forum is dedicated to all questions from Marketing & Management majors.");
+    }
+    elseif ($id == 5){
+        return array("Economics","This Forum is dedicated to all questions from Economics majors.");
+    }
+    elseif ($id == 6){
+        return array("Finance","This Forum is dedicated to all questions from Finance majors.");
+    }
+    else {
+        return array("Political Science","This Forum is dedicated to all questions from Political Science majors.");
+    }
+
 }

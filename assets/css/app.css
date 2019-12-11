@@ -44,11 +44,7 @@
     transition: .7s;
 
 }
-.menu li i{
-    margin-left: 20%;
-    margin-top: 10%;
-    /*visibility: hidden;*/
-}
+
 .padded{
     padding: 1%;
     margin-top: 2%;
@@ -81,8 +77,8 @@
 }
 
 #avatar{
-    height: 5%;
-    width: 5%;
+    height: 4%;
+    width: 4%;
     border-radius: 60px;
     float: left;
     margin-right: 2%;
@@ -108,22 +104,58 @@
 .questions p a:visited{
     color: #7163b1;
 }
-.questions p a:hover{
+/*.questions p a:hover{*/
+/*     background: #e6e6e6;*/
+/*     color: #1673b1;*/
+/* }*/
+.question {
+    display: block;
+}
+.question:hover{
     background: #e6e6e6;
     color: #1673b1;
 }
+.question p {
+    line-height: 1;
+    /*padding-left: 15em;*/
+}
+
 .center{
     text-align: center;
 }
 #identification{
     /*width: 50px;*/
 }
-
- .menu li a{
-    padding: .5em;
+.menu li i{
+    padding-right: 3%;
+    /*margin-left: 20%;*/
+    /*margin-top: 10%;*/
+    /*visibility: hidden;*/
 }
+ .menu li a{
+    /*padding: 4%;*/
+}
+ .left-side{
+     /*padding: 2%;*/
+ }
 
 #torso{
     color: #1779ba;
     cursor: pointer;
+}
+.response{
+    border: #1779ba solid .04em;
+    border-radius: 5px;
+    padding: 1em;
+}
+#image {
+    /*height: 6%;*/
+    /*width: 6%;*/
+    /*border-radius: 60px;*/
+
+}
+
+.vertical li:hover{
+    background: #0c3d5d;
+    color: white;
 }

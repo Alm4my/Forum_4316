@@ -7,9 +7,9 @@ To still give users the opportunity to delete their account, you could build som
 and then delete their account. Unfortunately, that is beyond the scope of this tutorial. */
 
 // TODO
-//  Finish Search, profile, topic pages;˚
-//  Add Profile picture // https://www.codeproject.com/Questions/1253940/How-to-fetch-users-profile-picture-using-user-name
-//  Redesign Users page
 //  Header Refining
-//  Search bar
 //  Case study zurb
+//  Database update in user view page and post count
+//  Don't post if field is empty.
+//  Allow user to delete posts
+

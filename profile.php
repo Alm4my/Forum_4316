@@ -41,9 +41,28 @@ include 'app.php';
                 <input type="text" placeholder="8 Characters min." name="password_1">
                 <input type="text" placeholder="Repeat" name="password_2">
             </label>
-            <input type="submit" class="button " value="Change Email" name="pass_chg">
+            <input type="submit" class="button " value="Change Password" name="pass_chg">
+        </form>
+        <!-- Image -->
+        <form class="log-in-form" action="" method="post" enctype="multipart/form-data">
+            <?php //include ('errors.php') ?>
+            <label>
+                <h5 class="">Change Profile Picture </h5>
+                <input type="hidden" name="size" value="1000000">
+                <input type="file"  name="user_image">
+            </label>
+            <input type="submit" class="button " value="Upload" name="chg_image">
         </form>
 
-<?php }
 
+<?php }
+        $result = mysqli_query($conn, "SELECT * FROM image WHERE image_for=".$_SESSION['user_id']);
+        while ($row = mysqli_fetch_array($result)) {
+            echo "<br>
+                <div class='image' >
+                <h4 class='text-center'> <strong>Current Picture</strong></h4>
+                <img src='assets/img/profile/".$row['image']."' style='margin-left: 15%;'>
+                </div>
+                ";
+        }
     include 'footer.php';

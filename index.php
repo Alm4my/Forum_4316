@@ -18,7 +18,7 @@ include 'header.php';
     // Show database topics
     while ($row = mysqli_fetch_assoc($cat_result)){
         echo '<h2>Topics in <a href="category.php?cat='. $row['cat_id'] .'"> ' . $row['cat_name'] . '</a></h2>';
-        $topic_query = "SELECT * FROM topics WHERE topic_cat =" .$row['cat_id'] . " ORDER BY topic_date DESC LIMIT 6  ";
+        $topic_query = "SELECT * FROM topics WHERE topic_cat =" .$row['cat_id'] . " ORDER BY topic_date DESC LIMIT 4  ";
 
         $topic_result= mysqli_query($conn, $topic_query);
         while ($line = mysqli_fetch_assoc($topic_result)){
@@ -33,15 +33,20 @@ include 'header.php';
             $date = mysqli_fetch_row($date_req);
             $date[0] = strtotime($date[0]);
             $s_date = date("h:i a", $date[0]);
-            $d_date = date("Y-m-d", $date[0]);
+            $d_date = date("m-d-Y", $date[0]);
 
+            // Picture Query
+            $p_query = "SELECT image FROM image WHERE image_for=". $line['topic_by'];
+            $p_query = mysqli_query($conn, $p_query);
+            $p_result = mysqli_fetch_assoc($p_query);
             echo '  
-                      <div id="questions'. $line['topic_id'] .'">
-                          <img alt="avatar" id="avatar" src="assets/img/avatar.png">
+                      <div class="question">
+                      <span>
+                          <img alt="avatar" id="avatar" src="assets/img/profile/'. $p_result['image'] . '">
                           <p>
-                            <a href="#">
-                                <a href="topic_view.php?id=' . $line['topic_id'] . '">' . $line['topic_subject'] . '</a>
-                            </a>
+                            <a href="topic_view.php?id=' . $line['topic_id'] . '">
+                            ' . $line['topic_subject'] .
+                            '</a>  
                             <br>
                             <span class="user">
                                  Started on '. $d_date .' at '. $s_date .' by
@@ -50,8 +55,8 @@ include 'header.php';
                                 </a> </b>
                             </span>
                            </p>
+                           </span>
                        </div>
-
             ';
         }
 

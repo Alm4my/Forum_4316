@@ -18,6 +18,11 @@ include 'func.php';
         $d=strtotime("now");
         $user_date = date("Y-m-d h:i:sa", $d);
         $user_level = 0;
+        $image = $_FILES['image']['tmp_name'];
+        $image_id = basename($image);
+
+        // Image file directory
+        $target = "assets/img/profile/".$image_id;
 
         // form validation: ensure that the form is correctly filled ...
         // by adding (array_push()) corresponding error unto $errors array
@@ -55,6 +60,7 @@ include 'func.php';
             $query = "INSERT INTO users(user_name, user_pass, user_email, user_date, user_level) 
                       VALUES('$username', '$password','$email', NOW(), 0)";
             $final_result = mysqli_query($conn, $query);
+
             if (!$final_result){
                 echo '
                         <div data-closable class="alert-box callout alert">
@@ -68,6 +74,26 @@ include 'func.php';
                 die ('Connect Error (' . $conn->connect_errno /* Error Code */ . ') ' . $conn->connect_error /* Error Desc */);
             }
             else{
+                $query = "SELECT user_id FROM users WHERE user_name= '$username' ";
+                $query = mysqli_query($conn, $query);
+                if ($query)
+                $results = mysqli_fetch_assoc($query);
+                if (empty($_FILES['image'])){
+                    // Insert the image name and image content in image_table
+                    $insert_image ="INSERT INTO image (image, image_for) VALUES ('$image_id', " .$results['user_id']. ")";
+                    $image_query = mysqli_query($conn, $insert_image);
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+                        $msg = "Image uploaded successfully";
+                    }
+                    else{
+                        array_push($errors,  "Failed to upload image");
+                    }
+                }
+                else{
+                    $insert_image = "INSERT INTO image(image_for) VALUES (" .$results['user_id']. ")";
+                    $image_query = mysqli_query($conn, $insert_image);
+                }
+
                 $_SESSION['username'] = $username;
                 $_SESSION['success'] = "You are now logged in";
                 echo '<div data-closable class="alert-box callout success">
@@ -79,7 +105,7 @@ include 'func.php';
                          </button>
                       </div>
                       <script>
-                            setTimeout(function(){window.location.href = \'login.php\';}, 1700);                        
+                            setTimeout(function(){window.location.href = \'login.php\';}, 2500);                        
                       </script>
                       ';
 
@@ -219,13 +245,13 @@ include 'func.php';
         if(!isset($_SESSION['signed_in']) || $_SESSION['signed_in'] == false) {
             //the user is not signed in
             echo '
-                    <div data-closable class="alert-box callout alert">
-                      <i class="fa fa-ban"></i> 
-                      Sorry, you have to be <a href="login.php">logged in</a> to create a Topic.
-                      <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-                             <span aria-hidden="true">&CircleTimes;</span>
-                      </button>
-                    </div>
+                <div data-closable class="alert-box callout alert">
+                  <i class="fa fa-ban"></i> 
+                  Sorry, you have to be <a href="login.php">logged in</a> to create a Topic.
+                  <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                         <span aria-hidden="true">&CircleTimes;</span>
+                  </button>
+                </div>
             ';
             die; // Remove the content from page
         }
@@ -250,6 +276,9 @@ include 'func.php';
             $post_content = mysqli_real_escape_string($conn, $_POST['post_content']);
             if (empty($topic_sub)) {
                 array_push($errors, "Subject  is required");
+            }
+            if (empty($post_content)) {
+                array_push($errors, "Message is empty. You have to write something...");
             }
 
             $topic_check_query = "SELECT * FROM topics WHERE topic_subject='$topic_sub' LIMIT 1";
@@ -311,7 +340,7 @@ include 'func.php';
                     else{
                         $query = "COMMIT;";
                         $result = mysqli_query($conn, $query);
-                        $q = "UPDATE users SET user_posts = user_posts + 1 WHERE user_id =" .$user_id;
+                        $q = "UPDATE users SET user_posts = (user_posts + 1) WHERE user_id =" .$user_id;
                         $r = mysqli_query($conn, $q);
                         echo '
                             <div data-closable class="alert-box callout success">
@@ -543,7 +572,8 @@ if (isset($_POST['set_new_pass'])) {
                         </div>
                 ';
                 die ('Connect Error (' . $conn->connect_errno /* Error Code */ . ') ' . $conn->connect_error /* Error Desc */);
-            } else {
+            }
+            else {
                 echo '<div data-closable class="alert-box callout success">
                         <i class="fa fa-check"></i> 
                         Password Changed!
@@ -559,5 +589,49 @@ if (isset($_POST['set_new_pass'])) {
                       ';
 
             }
+        }
+    }
+
+// IMAGE UPLOAD
+    if (isset($_POST['chg_image'])){
+        $image_new = $_FILES['user_image']['tmp_name'];
+
+        // image file directory
+        $target = "assets/img/profile/".basename($image_new);
+        $image = basename($image_new);
+
+        // Insert the image name and image content in image_table
+//        $insert_image ="INSERT INTO image (image) VALUES ('$image')";
+        $insert_image = "UPDATE image SET image = '$image' WHERE image_for=".$_SESSION['user_id'];
+  	    // Execute query
+        $final_result = mysqli_query($conn, $insert_image);
+
+        if (!$final_result) {
+            echo '
+                        <div data-closable class="alert-box callout alert">
+                          <i class="fa fa-ban"></i> 
+                          Could not upload your picture. Please try again later.
+                          <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                              <span aria-hidden="true">&CircleTimes;</span>
+                          </button>
+                        </div>
+                ';
+            die ('Connect Error (' . $conn->connect_errno /* Error Code */ . ') ' . $conn->connect_error /* Error Desc */);
+        }
+        else {
+            if (move_uploaded_file($_FILES['user_image']['tmp_name'], $target)) {
+                 $msg = "Image uploaded successfully";
+            }
+            else{
+                array_push($errors,  "Failed to upload image");
+            }
+            echo '<div data-closable class="alert-box callout success">
+                        <i class="fa fa-check"></i> 
+                        Picture Changed!
+                        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                            <span aria-hidden="true">&CircleTimes;</span>
+                         </button>
+                      </div>
+                      ';
         }
     }

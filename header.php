@@ -24,13 +24,17 @@
     <link rel="stylesheet"  href="assets/css/foundation.min.css">
     <link rel="stylesheet"  href="assets/css/foundation-icons/foundation-icons.css">
     <link rel="stylesheet"  href="assets/css/app.css">
-    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css"
-
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <!-- Import prismjs stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.13.0/themes/prism.css">
+    <!-- Import Trumbowyg stylesheet-->
+    <link rel="stylesheet" href="assets/js/vendor/Trumbowyg-master/dist/ui/trumbowyg.min.css">
 
     <!-- Favicon
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <!-- <link rel="icon" type="image/png" href="images/favicon.png">  -->
-
+    <script src="assets/js/vendor/jquery.js"></script>
+    <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.js"><\/script>')</script>
 </head>
 <body>
 
@@ -65,21 +69,29 @@
                               </li>';
                     }
                     else {
+                        $p_query = "SELECT image FROM image WHERE image_for=". $_SESSION['user_id'];
+                        $p_query = mysqli_query($conn, $p_query);
+                        $p_result = mysqli_fetch_assoc($p_query);
                         echo ' <li>
                                <a href="signout.php" class="hollow button hcolor">Sign Out</a>
                                </li>
                                <li>
-                               <i class="fas fa-users-cog fa-2x" id="torso"> </i>'/*. $_SESSION['user_name'] */.'
-                               <ul class="menu vertical">
-                                  <li><span style="font-weight: bold; color: #667c99">'. $_SESSION['user_name'] .'</span></li>
+                               <img alt="avatar" style="height: 50px; width: 50px; border-radius: 10px;" src="assets/img/profile/'. $p_result['image'] . '">
+                              
+                                <span style="font-weight: bold; color: #667c99">'. $_SESSION['user_name'] .'</span>
+                                
+                               <!-- <i class="fas fa-users-cog fa-2x" id="torso"> </i> -->
+                               '/*. $_SESSION['user_name'] */.'
+                               <ul class="menu vertical hmenu">
+                                  
                                   <li><a href="profile.php">Profile</a></li>
+                                  <li><a href="buymeabeer.inc">Buy me a Beer!</a></li>
                                   <li><a href="mailto:albcoulibaly@gmail.com">Email Us!</a></li>
                                </ul>
                                
                                </li>
                                </ul>
                                ';
-
                     }
                 ?>
             </ul>
@@ -103,7 +115,7 @@
 
 <div class="grid-container">
     <div class="grid-x grid-margin-x grid-padding-x down">
-        <div class="cell large-3 medium-3 small-3" >
+        <div class="cell large-3 medium-3 small-12"  >
             <ul class="side-list">
                 <li>
                     <a href="topic_creation.php" aria-label="Start a Discussion"  class="button" id="discuss-btn">
@@ -119,10 +131,10 @@
 
             </ul>
             <ul class="vertical menu ">
-                <li style=" margin-left: 30%; font-weight: bold;"> Categories </li>
+                <li style=" /*margin-left: 30%;*/ font-weight: bold;"> Categories </li>
                 <?php include('category_mp.php'); ?>
 
 
             </ul>
         </div>
-        <div class="cell large-8 medium-8 small-8 main">
+        <div class="cell large-8 medium-8 small-12 ">

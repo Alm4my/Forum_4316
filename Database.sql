@@ -1,12 +1,13 @@
 CREATE TABLE users (
     user_id     INT (32) NOT NULL AUTO_INCREMENT,
-    user_name   VARCHAR (30) NOT NULL,
+    user_name   VARCHAR (50) NOT NULL,
     user_pass   VARCHAR (255) NOT NULL,
     user_email  VARCHAR (255),
     user_date   DATETIME NOT NULL,
     user_level  INT (8) NOT NULL,
     user_posts  INT (32) DEFAULT 0,
     user_topics INT (32) DEFAULT 0,
+    user_image  BLOB,
     UNIQUE      INDEX user_name_unique (user_name),
     PRIMARY     KEY (user_id)
 )   ENGINE=INNODB;
@@ -35,7 +36,6 @@ CREATE TABLE posts (
     post_date       DATETIME NOT NULL,
     post_topic      INT(32) NOT NULL,
     post_by         INT(32) NOT NULL,
-    post_count      INT (32),
     PRIMARY         KEY (post_id)
 ) ENGINE=INNODB;
 
@@ -52,6 +52,14 @@ CREATE TABLE search(
                        search_by       INT(32) NOT NULL
 ) ENGINE=INNODB;
 
+CREATE TABLE image (
+                        id              INT (32) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                        image           VARCHAR(255) DEFAULT 'avatar.png',
+                        image_for       INT (32)
+)ENGINE = INNODB;
+
+ALTER TABLE image ADD FOREIGN KEY (image_for) REFERENCES users(user_id) ON DELETE RESTRICT ON UPDATE CASCADE;
+-- Link image_for to user_id
 ALTER TABLE topics ADD FOREIGN KEY(topic_cat) REFERENCES categories(cat_id) ON DELETE RESTRICT ON UPDATE CASCADE;
 -- Set topic_cat as a foreign key and references it to categories(cat_id), update them automatically and requires the
 -- category to be fully empty before deletion (no topics)

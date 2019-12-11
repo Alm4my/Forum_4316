@@ -9,7 +9,7 @@ include 'app.php';
 
 ?>
 <!-- HTML SIGN UP FORM -->
-    <form class="log-in-form" method="post" action="signup.php">
+    <form class="log-in-form" method="post" action="signup.php" enctype="multipart/form-data">
         <?php include('errors.php'); ?>
 
         <h3 class="text-center">Fill this out!</h3>
@@ -24,6 +24,9 @@ include 'app.php';
         </label>
         <label> Retype Password
             <input type="password" placeholder="Password" name="password_2">
+        </label>
+        <label> Profile picture (default: mario)
+            <input type="file" name="image" >
         </label>
         <label> Level
             <input type="text" placeholder="0 - Newbie" readonly>
